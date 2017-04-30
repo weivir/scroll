@@ -1,0 +1,263 @@
+scroll說明
+
+前置作業
+
+<步驟一>
+
+至cdnjs複製
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+
+主題內容
+
+<步驟一>
+
+先寫選單與內容標題
+
+<nav>
+       <a href="#" data-link="home">HOME</a>
+       <a href="#" data-link="news">NEWS</a>
+       <a href="#" data-link="works">WORKS</a>
+       <a href="#" data-link="blog">BLOG</a>
+       <a href="#" data-link="contact">CONTACT</a>
+</nav>
+
+
+ <div class="container">
+       <div id="home">
+           <h1 class="wow fadeInUp">HOME</h1>
+       </div>
+        <div id="news">
+           <h1 class="wow zoomIn">NEWS</h1>
+       </div>
+        <div id="works">
+           <h1 class="wow bounceInLeft">WORKS</h1>
+       </div>
+        <div id="blog">
+           <h1 class="wow fadeInUp">BLOG</h1>
+       </div>
+        <div id="contact">
+           <h1 class="wow fadeInUp">CONTACT</h1>
+       </div>
+   </div>  
+
+問題:
+
+1.第一章大圖字體透明度為何會影響選單變色
+
+2.blog的顏色區塊上面多了白色要怎消除?
+
+(註:data-link在js要做連結)
+
+<步驟二>
+
+再寫css
+
+ <style>
+/*        所有圖片的寬1200px 高自訂 都要在photoshop上處理過*/
+      @import url('https://fonts.googleapis.com/css?family=Overpass+Mono|Ubuntu');
+       @import url('https://fonts.googleapis.com/css?family=Oswald');
+        @import url('https://fonts.googleapis.com/css?family=Montserrat');
+        *{
+/*            font-family: "Ubuntu";*/
+            margin: 0;
+            padding: 0;
+        }
+        nav{
+            margin-top: 20px;
+            margin-left: 1000px;
+            position: fixed;
+/*            position消除選單邊界*/
+        }
+        a{
+        text-shadow: 1px 1px #434a54;
+/*        文字陰影*/
+        font-family: "Ubuntu";
+        text-decoration: none;
+        margin-left: 10px;
+        color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        transition: color .3s; 
+          }
+        a:hover{
+            color:yellow;
+        }
+        #home{
+            background-image: url(images/d1.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 800px;
+        }
+        #home h1{
+            line-height: 600px;
+            margin-left: 150px;
+            font-size: 100px;
+            color: black;
+            letter-spacing: 5px;
+            font-family:"Oswald";
+/*          opacity: .3;*/
+        }
+        #news{
+            background-color: white;
+            height: 200px;
+        }
+        #news h1{
+            font-family:"Montserrat";
+            text-align: center;
+            line-height: 80px;
+            font-size:80px;
+            margin-top: 100px;
+        }
+        #news p{
+            font-family:"Montserrat";
+            text-align: center;
+            font-size: 20px;
+/*            margin-top: 10px;*/
+        }
+        #works{
+            background-image: url(images/c3.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 500px; 
+        }
+        #works h1{
+            font-family:"Montserrat";
+            text-align: center;
+            line-height: 500px;
+            color: white;
+            font-size: 80px;
+        }
+
+       #contact{
+            background-image: url(images/f1.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 600px;
+        }
+       #contact h1{
+            font-family:"Montserrat";
+            text-align: center;
+            line-height: 500px;
+            color: dimgray;
+            font-size: 80px;
+        }
+         #gotop {
+            display: block;
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            line-height: 50px;
+            position: fixed;
+            right: 15px;
+            bottom: 10px;
+        }
+</style>
+
+<步驟三>
+
+撰寫javascript
+
+ <script>
+        $(document).ready(function(){
+           $("nav a").click(function () {
+                var section = $(this).data("link");
+                var _offset = $("#" + section).offset().top;
+                $("html,body").animate({
+                    scrollTop: _offset
+                });
+               return false 
+            });
+            $("#gotop").click(function(){
+                $("html,body").animate({
+                    scrollTop:0
+                });
+                return false
+            });
+            $("#gotop").hide();
+            $(window).scroll(function () {
+                var I = "rollIn";
+                var O = "rollOut";
+                if ($(this).scrollTop() > 300) {
+                    $("#gotop").show();
+                    $("#gotop").removeClass(O);
+                    $("#gotop").addClass(I);
+                } else {
+                    $("#gotop").removeClass(I);
+                    $("#gotop").addClass(O);
+                }
+            });
+        });
+</script>
+
+說明
+
+1.data-link >可自訂
+
+2.data-link要與id名稱相同
+
+3.$("nav a").click(function () {
+
+   點擊選單的a
+
+   var section = $(this).data("link");
+
+   這個點擊 區域會連結
+
+   var _offset = $("#" + section).offset().top;
+   
+   #為id+區域 offset為位移 top是計算每個區塊的高度
+
+   $("html,body").animate({
+ 
+   animate為動畫的意思
+
+   scrollTop: _offset
+
+   捲軸位移
+
+   });
+
+4.去除閃爍有兩個方法
+
+(1)<script></script>裡加上 return false
+
+(2)<a href="javascript:;">
+
+5.("html,body") >輸入html的原因IE瀏覽器
+
+6.$("#gotop").click(function(){
+                $("html,body").animate({
+                    scrollTop:0
+                });
+                return false
+            });
+
+  這一整句是指畫面回到頂部的意思
+
+7.$(window).scroll(function () {
+                var I = "rollIn";
+                var O = "rollOut";
+                if ($(this).scrollTop() > 300) {
+                    $("#gotop").show();
+                    $("#gotop").removeClass(O);
+                    $("#gotop").addClass(I);
+                } else {
+                    $("#gotop").removeClass(I);
+                    $("#gotop").addClass(O);
+                }
+
+說明:
+
+if從這開始卷軸畫面大於300高度時 top按鈕就會滾入動畫
+
+els卷軸畫面小於300高度時，top按鈕就會滾出動畫
+
